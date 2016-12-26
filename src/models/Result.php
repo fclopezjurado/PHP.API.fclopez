@@ -19,6 +19,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Result implements \JsonSerializable
 {
+    const CLASS_NAME = __CLASS__;
+    const DATE_FORMAT = 'Y/m/d H:i:s';
+    const TIME_ATTRIBUTE = 'time';
+    const ID_ATTRIBUTE = 'id';
+    const USER_ATTRIBUTE = 'user';
+    const USER_ID_ATTRIBUTE = 'user_id';
+    const RESULT_ATTRIBUTE = 'result';
+
     /**
      * @var integer
      *
@@ -74,6 +82,14 @@ class Result implements \JsonSerializable
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -160,3 +176,82 @@ class Result implements \JsonSerializable
         );
     }
 }
+
+/**
+ * @SWG\Definition(
+ *     definition="Result",
+ *     required = { "id", "user", "result" },
+ *     @SWG\Property(
+ *          property    = "id",
+ *          description = "Result ID",
+ *          type        = "integer",
+ *          format      = "int32"
+ *      ),
+ *      @SWG\Property(
+ *          property    = "user",
+ *          description = "Result user",
+ *          type        = "#/definitions/User"
+ *      ),
+ *      @SWG\Property(
+ *          property    = "result",
+ *          description = "Result",
+ *          type        = "integer",
+ *          format      = "int32"
+ *      )
+ *      example = {
+ *          "id": 1,
+ *          "user": {
+ *              "id": 1508,
+ *              "username": "User name",
+ *              "email": "User email",
+ *              "enabled": true,
+ *              "token": "$2$6a7f5b9e15f9c4a51495"
+ *          },
+ *          "result": 8
+ *     }
+ * )
+ * @SWG\Parameter(
+ *      name        = "resultId",
+ *      in          = "path",
+ *      description = "ID of result to fetch",
+ *      required    = true,
+ *      type        = "integer",
+ *      format      = "int32"
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *      definition = "ResultData",
+ *      @SWG\Property(
+ *          property    = "user_id",
+ *          description = "User ID",
+ *          type        = "integer"
+ *      ),
+ *      @SWG\Property(
+ *          property    = "result",
+ *          description = "Result",
+ *          type        = "integer"
+ *      ),
+ *      example = {
+ *          "user_id": 1,
+ *          "result": 8
+ *      }
+ * )
+ */
+
+/**
+ * Result array definition
+ *
+ * @SWG\Definition(
+ *     definition = "ResultsArray",
+ *      @SWG\Property(
+ *          property    = "results",
+ *          description = "Results array",
+ *          type        = "array",
+ *          items       = {
+ *              "$ref": "#/definitions/Result"
+ *          }
+ *      )
+ * )
+ */
