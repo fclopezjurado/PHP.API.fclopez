@@ -1,18 +1,25 @@
 <?php // src/dependencies.php
 
-// DIC configuration
+/**
+ * DIC configuration
+ */
 
 $container = $app->getContainer();
 
-// view renderer
-/** @var Interop\Container\ContainerInterface $c */
+/**
+ * View renderer
+ * @param Interop\Container\ContainerInterface $c
+ * @return \Slim\Views\PhpRenderer
+ */
 $container['renderer'] = function ($c) {
     $settings = $c->get('settings')['renderer'];
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
 
-// monolog
-/** @var Interop\Container\ContainerInterface $c */
+/**
+ * @param Interop\Container\ContainerInterface $c
+ * @return \Monolog\Logger
+ */
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);

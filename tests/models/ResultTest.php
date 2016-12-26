@@ -1,9 +1,9 @@
 <?php   // tests/Entity/ResultTest.php
 
-namespace MiW16\Results\Tests\Entity;
+namespace MiW16\Results\Tests\Models;
 
-use MiW16\Results\Entity\Result;
-use MiW16\Results\Entity\User;
+use MiW16\Results\Models\Result;
+use MiW16\Results\Models\User;
 
 /**
  * Class ResultTest
@@ -12,12 +12,12 @@ use MiW16\Results\Entity\User;
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \MiW16\Results\Entity\User $user
+     * @var \MiW16\Results\Models\User $user
      */
     protected $user;
 
     /**
-     * @var \MiW16\Results\Entity\Result $result
+     * @var \MiW16\Results\Models\Result $result
      */
     protected $result;
 
@@ -27,7 +27,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      * @var \DateTime $time
      */
     private $time;
-
 
     /**
      * Sets up the fixture.
@@ -48,11 +47,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     /**
      * Implement testConstructor
      *
-     * @covers \MiW16\Results\Entity\Result::__construct()
-     * @covers \MiW16\Results\Entity\Result::getId()
-     * @covers \MiW16\Results\Entity\Result::getResult()
-     * @covers \MiW16\Results\Entity\Result::getUser()
-     * @covers \MiW16\Results\Entity\Result::getTime()
+     * @covers \MiW16\Results\Models\Result::__construct()
+     * @covers \MiW16\Results\Models\Result::getId()
+     * @covers \MiW16\Results\Models\Result::getResult()
+     * @covers \MiW16\Results\Models\Result::getUser()
+     * @covers \MiW16\Results\Models\Result::getTime()
      */
     public function testConstructor()
     {
@@ -68,21 +67,23 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Implement testGet_Id().
+     * Implement testGetSetId().
      *
-     * @covers \MiW16\Results\Entity\Result::getId
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @covers \MiW16\Results\Models\Result::getId
+     * @covers \MiW16\Results\Models\Result::setId
      */
-    public function testGet_Id()
+    public function testGetSetId()
     {
         self::assertEmpty($this->result->getId());
+        $this->result->setId(1);
+        self::assertEquals(1, $this->result->getId());
     }
 
     /**
      * Implement testUsername().
      *
-     * @covers \MiW16\Results\Entity\Result::setResult
-     * @covers \MiW16\Results\Entity\Result::getResult
+     * @covers \MiW16\Results\Models\Result::setResult
+     * @covers \MiW16\Results\Models\Result::getResult
      */
     public function testResult()
     {
@@ -96,8 +97,8 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     /**
      * Implement testUser().
      *
-     * @covers \MiW16\Results\Entity\Result::setUser()
-     * @covers \MiW16\Results\Entity\Result::getUser()
+     * @covers \MiW16\Results\Models\Result::setUser()
+     * @covers \MiW16\Results\Models\Result::getUser()
      */
     public function testUser()
     {
@@ -111,8 +112,8 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     /**
      * Implement testTime().
      *
-     * @covers \MiW16\Results\Entity\Result::setTime
-     * @covers \MiW16\Results\Entity\Result::getTime
+     * @covers \MiW16\Results\Models\Result::setTime
+     * @covers \MiW16\Results\Models\Result::getTime
      */
     public function testTime()
     {
@@ -126,8 +127,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     /**
      * Implement testTo_String().
      *
-     * @covers \MiW16\Results\Entity\Result::__toString
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @covers \MiW16\Results\Models\Result::__toString
      */
     public function testTo_String()
     {
@@ -141,8 +141,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     /**
      * Implement testJson_Serialize().
      *
-     * @covers \MiW16\Results\Entity\Result::jsonSerialize
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @covers \MiW16\Results\Models\Result::jsonSerialize
      */
     public function testJson_Serialize()
     {

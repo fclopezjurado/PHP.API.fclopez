@@ -20,6 +20,16 @@ use Swagger\Annotations as SWG;
  */
 class User implements \JsonSerializable
 {
+    const CLASS_NAME = __CLASS__;
+    const DATE_FORMAT = 'Y/m/d H:i:s';
+    const LAST_LOGIN_ATTRIBUTE = 'lastLogin';
+    const TOKEN_ATTRIBUTE = 'token';
+    const ID_ATTRIBUTE = 'id';
+    const USERNAME_ATTRIBUTE = 'username';
+    const EMAIL_ATTRIBUTE = 'email';
+    const ENABLED_ATTRIBUTE = 'enabled';
+    const PASSWORD_ATTRIBUTE = 'password';
+
     /**
      * @var integer
      *
@@ -90,6 +100,14 @@ class User implements \JsonSerializable
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -229,7 +247,8 @@ class User implements \JsonSerializable
             'username'      => utf8_encode($this->username),
             'email'         => utf8_encode($this->email),
             'enabled'       => $this->enabled,
-            'token'         => $this->token
+            'token'         => utf8_encode($this->token),
+            'password'      => utf8_encode($this->password)
         );
     }
 }
