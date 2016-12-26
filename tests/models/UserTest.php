@@ -1,8 +1,8 @@
-<?php   // tests/Entity/UserTest.php
+<?php // tests/Entity/UserTest.php
 
-namespace MiW16\Results\Tests\Entity;
+namespace MiW16\Results\Tests\Models;
 
-use MiW16\Results\Entity\User;
+use MiW16\Results\Models\User;
 use PHPUnit_Framework_Error_Notice;
 use PHPUnit_Framework_Error_Warning;
 
@@ -33,7 +33,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::__construct()
+     * @covers \MiW16\Results\Models\User::__construct()
      */
     public function testConstructor()
     {
@@ -45,54 +45,56 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::getId()
+     * @covers \MiW16\Results\Models\User::getId()
+     * @covers \MiW16\Results\Models\User::setId()
      */
-    public function testGetId()
+    public function testGetSetId()
     {
         self::assertEquals(0, $this->user->getId());
+        $this->user->setId(1);
+        self::assertEquals(1, $this->user->getId());
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::setUsername()
-     * @covers \MiW16\Results\Entity\User::getUsername()
+     * @covers \MiW16\Results\Models\User::setUsername()
+     * @covers \MiW16\Results\Models\User::getUsername()
      */
     public function testGetSetUsername()
     {
-        static::assertEmpty($this->user->getUsername());
-        $username = 'UsEr TESt NaMe #' . rand(0, 10000);
-        $this->user->setUsername($username);
-        static::assertEquals($username, $this->user->getUsername());
+        self::assertEmpty($this->user->getUsername());
+        $userName = 'Testing \'setUsername()\' and \'getUsername()\' methods #' . rand(0, 10000);
+        $this->user->setUsername($userName);
+        self::assertEquals($userName, $this->user->getUsername());
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::getEmail()
-     * @covers \MiW16\Results\Entity\User::setEmail()
+     * @covers \MiW16\Results\Models\User::getEmail()
+     * @covers \MiW16\Results\Models\User::setEmail()
      */
     public function testGetSetEmail()
     {
         $userEmail = 'UsEr_' . rand(0, 10000) . '@example.com';
-        static::assertEmpty($this->user->getEmail());
+        self::assertEmpty($this->user->getEmail());
         $this->user->setEmail($userEmail);
-        static::assertEquals($userEmail, $this->user->getEmail());
+        self::assertEquals($userEmail, $this->user->getEmail());
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::setEnabled()
-     * @covers \MiW16\Results\Entity\User::isEnabled()
+     * @covers \MiW16\Results\Models\User::setEnabled()
+     * @covers \MiW16\Results\Models\User::isEnabled()
      */
     public function testIsSetEnabled()
     {
         $this->user->setEnabled(true);
         self::assertTrue($this->user->isEnabled());
-
         $this->user->setEnabled(false);
         self::assertFalse($this->user->isEnabled());
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::getPassword()
-     * @covers \MiW16\Results\Entity\User::setPassword()
-     * @covers \MiW16\Results\Entity\User::validatePassword()
+     * @covers \MiW16\Results\Models\User::getPassword()
+     * @covers \MiW16\Results\Models\User::setPassword()
+     * @covers \MiW16\Results\Models\User::validatePassword()
      */
     public function testGetSetPassword()
     {
@@ -103,8 +105,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::getToken()
-     * @covers \MiW16\Results\Entity\User::setToken()
+     * @covers \MiW16\Results\Models\User::getToken()
+     * @covers \MiW16\Results\Models\User::setToken()
      */
     public function testGetSetToken()
     {
@@ -115,8 +117,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @covers \MiW16\Results\Entity\User::getLastLogin()
-     * @covers \MiW16\Results\Entity\User::setLastLogin()
+     * @covers \MiW16\Results\Models\User::getLastLogin()
+     * @covers \MiW16\Results\Models\User::setLastLogin()
      */
     public function testGetSetLastLogin()
     {
@@ -126,7 +128,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::__toString()
+     * @covers \MiW16\Results\Models\User::__toString()
      */
     public function testToString()
     {
@@ -136,7 +138,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \MiW16\Results\Entity\User::jsonSerialize()
+     * @covers \MiW16\Results\Models\User::jsonSerialize()
      */
     public function testJsonSerialize()
     {
