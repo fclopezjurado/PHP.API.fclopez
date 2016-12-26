@@ -9,8 +9,8 @@
         },
         "version": "0.1.0"
     },
-    "host": "localhost:8000",
-    "basePath": "/",
+    "host": "localhost",
+    "basePath": "/PHP.API.fclopez/public/index.php",
     "schemes": [
         "http"
     ],
@@ -28,7 +28,7 @@
                 ],
                 "summary": "Returns all users",
                 "description": "Returns all users from the system that the user has access to.",
-                "operationId": "miw_cget_users",
+                "operationId": "miw_get_all_users",
                 "responses": {
                     "200": {
                         "description": "User array response",
@@ -37,9 +37,9 @@
                         }
                     },
                     "404": {
-                        "description": "User object not found",
+                        "description": "Users not found",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/usersNotFound"
                         }
                     }
                 }
@@ -50,7 +50,7 @@
                 ],
                 "summary": "Creates a new user",
                 "description": "Creates a new user",
-                "operationId": "miw_post_users",
+                "operationId": "miw_create_user",
                 "parameters": [
                     {
                         "name": "data",
@@ -72,13 +72,13 @@
                     "400": {
                         "description": "`Bad Request` Username or email already exists.",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNameOrEmailAlreadyExists"
                         }
                     },
                     "422": {
                         "description": "`Unprocessable entity` Username, e-mail or password is left out",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNameOrEmailOrPasswordIsLeftOut"
                         }
                     }
                 }
@@ -104,7 +104,7 @@
                 ],
                 "summary": "Returns a user based on a single ID",
                 "description": "Returns the user identified by `userId`.",
-                "operationId": "miw_get_users",
+                "operationId": "miw_get_user_by_id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/userId"
@@ -118,9 +118,9 @@
                         }
                     },
                     "404": {
-                        "description": "User id. not found",
+                        "description": "User not found",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNotFound"
                         }
                     }
                 }
@@ -131,7 +131,7 @@
                 ],
                 "summary": "Updates a user",
                 "description": "Updates the user identified by `userId`.",
-                "operationId": "miw_put_users",
+                "operationId": "miw_update_user",
                 "parameters": [
                     {
                         "$ref": "#/parameters/userId"
@@ -154,15 +154,15 @@
                         }
                     },
                     "400": {
-                        "description": "`Bad Request` User name or e-mail already exists",
+                        "description": "`Bad Request` Username or e-mail already exists",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNameOrEmailAlreadyExists"
                         }
                     },
                     "404": {
-                        "description": "`Not Found` The user could not be found",
+                        "description": "`Not Found` User not found",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNotFound"
                         }
                     }
                 }
@@ -173,7 +173,7 @@
                 ],
                 "summary": "Deletes a user",
                 "description": "Deletes the user identified by `userId`.",
-                "operationId": "miw_delete_users",
+                "operationId": "miw_delete_user_by_id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/userId"
@@ -186,7 +186,184 @@
                     "404": {
                         "description": "User not found",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "$ref": "#/definitions/userNotFound"
+                        }
+                    }
+                }
+            }
+        },
+        "/results": {
+            "get": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Returns all results",
+                "description": "Returns all results from the system that the user has access to.",
+                "operationId": "miw_get_all_results",
+                "responses": {
+                    "200": {
+                        "description": "Result array response",
+                        "schema": {
+                            "$ref": "#/definitions/ResultsArray"
+                        }
+                    },
+                    "404": {
+                        "description": "Results not found",
+                        "schema": {
+                            "$ref": "#/definitions/resultsNotFound"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Creates a new result",
+                "description": "Creates a new result",
+                "operationId": "miw_create_result",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "`Result` properties to add to the system",
+                        "required": true,
+                        "schema": {
+                          "$ref": "#/definitions/ResultData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "`Created` Result created",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "`Bad Request` User does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/userDoesNotExist"
+                        }
+                    },
+                    "422": {
+                        "description": "`Unprocessable entity` User ID or result is left out.",
+                        "schema": {
+                            "$ref": "#/definitions/userIDOrResultIsLeftOut"
+                        }
+                    }
+                }
+            },
+            "options": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Provides the list of HTTP supported methods",
+                "description": "Return a `Allow` header with a list of HTTP supported methods.",
+                "operationId": "miw_options_results",
+                "responses": {
+                    "200": {
+                        "description": "`Allow` header &lt;Response body is empty&gt;"
+                    }
+                }
+            }
+        },
+        "/results/{resultId}": {
+            "get": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Returns a result based on a single ID",
+                "description": "Returns the result identified by `resultId`.",
+                "operationId": "miw_get_result_by_id",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/resultId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Result",
+                        "schema": {
+                          "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "404": {
+                        "description": "Result not found",
+                        "schema": {
+                          "$ref": "#/definitions/resultNotFound"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Updates a result",
+                "description": "Updates the result identified by `resultId`.",
+                "operationId": "miw_update_result",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/resultId"
+                    },
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "`Result` data to update",
+                        "required": true,
+                        "schema": {
+                          "$ref": "#/definitions/ResultData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Ok` Result previously existed and is now updated",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                      "description": "`Bad Request` User not found.",
+                      "schema": {
+                        "$ref": "#/definitions/resultUserNotFound"
+                      }
+                    },
+                    "404": {
+                        "description": "`Not Found` Result not found",
+                        "schema": {
+                            "$ref": "#/definitions/resultNotFound"
+                        }
+                    },
+                    "422": {
+                        "description": "`Unprocessable entity` Result field is left out",
+                        "schema": {
+                            "$ref": "#/definitions/resultFieldIsLeftOut"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Results"
+                ],
+                "summary": "Deletes a result",
+                "description": "Deletes the result identified by `resultId`.",
+                "operationId": "miw_delete_results",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/resultId"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Result deleted &lt;Response body is empty&gt;"
+                    },
+                    "404": {
+                        "description": "Result not found",
+                        "schema": {
+                            "$ref": "#/definitions/resultNotFound"
                         }
                     }
                 }
@@ -198,7 +375,8 @@
             "required": [
                 "id",
                 "username",
-                "email"
+                "email",
+                "password"
             ],
             "properties": {
                 "id": {
@@ -214,6 +392,11 @@
                     "description": "User email",
                     "type": "string"
                 },
+                "password": {
+                    "description": "User password",
+                    "type": "string",
+                    "format": "password"
+                },
                 "token": {
                     "description": "API access token",
                     "type": "string"
@@ -227,6 +410,7 @@
                 "id": 1508,
                 "username": "User name",
                 "email": "User email",
+                "password": "dfa45d4a6da4d5f4a",
                 "enabled": true,
                 "token": "$2$6a7f5b9e15f9c4a51495"
             }
@@ -235,16 +419,19 @@
             "properties": {
                 "username": {
                     "description": "User name",
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                 },
                 "email": {
                     "description": "User email",
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                 },
                 "password": {
                     "description": "User password",
                     "type": "string",
-                    "format": "password"
+                    "format": "password",
+                    "required": true
                 },
                 "enabled": {
                     "description": "Denotes if user is enabled",
@@ -274,7 +461,92 @@
                 }
             }
         },
-        "Message": {
+        "Result": {
+            "required": [
+                "id",
+                "user",
+                "result"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Result Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user": {
+                    "description": "Result User",
+                    "type": "#/definitions/User",
+                    "format": "int32"
+                },
+                "result": {
+                    "description": "Result",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "example": {
+                "id": 1,
+                "user": {
+                    "id": 1508,
+                    "username": "User name",
+                    "email": "User email",
+                    "enabled": true,
+                    "token": "$2$6a7f5b9e15f9c4a51495"
+                },
+                "result": 8
+            }
+        },
+        "ResultData": {
+            "properties": {
+                "user_id": {
+                    "description": "User ID",
+                    "type": "integer",
+                    "required": true
+                },
+                "result": {
+                    "description": "Result",
+                    "type": "integer",
+                    "required": true
+                }
+            },
+          "example": {
+              "user_id": 1,
+              "result": 8
+          }
+        },
+        "ResultsArray": {
+            "properties": {
+                "results": {
+                    "description": "Results array",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Result"
+                    }
+                }
+            }
+        },
+        "userNotFound": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 404,
+                "message": "User not found"
+            }
+        },
+        "usersNotFound": {
             "required": [
                 "code",
                 "message"
@@ -291,8 +563,176 @@
                 }
             },
             "example": {
-                "code": "HTTP code",
-                "message": "Response Message"
+                "code": 404,
+                "message": "Users not found"
+            }
+        },
+        "userNameOrEmailAlreadyExists": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 400,
+                "message": "Username or email already exists"
+            }
+        },
+        "userNameOrEmailOrPasswordIsLeftOut": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 422,
+                "message": "Username, e-mail or password is left out"
+            }
+        },
+        "resultNotFound": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Response code",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "description": "Response message",
+                    "type": "string"
+                }
+            },
+            "example": {
+              "code": 404,
+              "message": "Result not found"
+            }
+        },
+        "resultsNotFound": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 404,
+                "message": "Results not found"
+            }
+        },
+        "userDoesNotExist": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 400,
+                "message": "User does not exist"
+            }
+        },
+        "userIDOrResultIsLeftOut": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Response code",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "description": "Response message",
+                    "type": "string"
+                }
+            },
+            "example": {
+                "code": 422,
+                "message": "User ID or result is left out"
+            }
+        },
+        "resultUserNotFound": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 400,
+                "message": "User not found"
+            }
+        },
+        "resultFieldIsLeftOut": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                  "description": "Response code",
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message": {
+                  "description": "Response message",
+                  "type": "string"
+                }
+            },
+            "example": {
+                "code": 422,
+                "message": "Result field is left out"
             }
         }
     },
@@ -301,6 +741,14 @@
             "name": "userId",
             "in": "path",
             "description": "ID of user to fetch",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+        },
+        "resultId": {
+            "name": "resultId",
+            "in": "path",
+            "description": "ID of result to fetch",
             "required": true,
             "type": "integer",
             "format": "int32"
